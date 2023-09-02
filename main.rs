@@ -1,16 +1,21 @@
-use p2pledger::{Peer};
+use p2pledger::peer::{ PeerManager};
+use p2pledger::models::{Blockchain, Transaction};
+#[tokio::main]
+async fn main() {
 
+    // Create a new blockchain instance
+    let mut blockchain = Blockchain::new();
 
-fn main() {
-    // Define own peer address and create a new Peer instance
-    let peer_address = String::from("127.0.0.1:8083");
-    let peer = Peer::new(peer_address.clone());
-    
-    // Start listening for incoming connections
-    tokio::spawn(async move {
-        peer.listen().await;
-    });
+    // Add a dummy transaction for testing
+    blockchain.add_block(vec![Transaction {
+        sender: "Alice".to_string(),
+        recipient: "Bob".to_string(),
+        amount: 50,
+    }]);
 
-    //peer.connect(PEER_ADDRESS).await;
+    // Create the peer manager
+    let peer_manager = PeerManager::new();
 
+    // Start P2P server
+    p2pledger::network::start_server(&peer_manager, blockchain).await;
 }
