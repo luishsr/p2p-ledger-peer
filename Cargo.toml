@@ -5,5 +5,14 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[[bin]]
+name = "p2ppeer"
+path = "main.rs"
+
 [dependencies]
 p2pledger = { path = "../p2p-ledger" }
+tokio = {features = ["full"], version = "1.32.0"}
+serde = {features = ["derive", "serde_derive", "default"], version = "1.0.188"}
+serde_json = "1.0.40"
+sha2 = "0.10.7"
+hex = "0.4.3"
